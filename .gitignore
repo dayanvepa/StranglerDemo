@@ -1,0 +1,44 @@
+# .NET Core build outputs
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code
+.vscode/
+
+# Visual Studio
+*.vs/
+*.pidb
+*.userprefs
+*.sln.ide/
+
+# Rider
+*.idea/
+
+# Mac OS
+.DS_Store
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# NuGet packages
+packages/
+
+# Logs
+*.log
+
+# Environment files
+.env
+
+# Temp files
+*.tmp
+*.temp
+
+# Backup files
+*.bak
