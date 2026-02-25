@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "p6goiRH6jB0=",
+  "success": true,
+  "projectFilePath": "/Users/dayanvelasquez/Documents/repos/MAESTRIA/StranglerDemo/StranglerProxy/StranglerProxy.csproj",
+  "expectedPackageFiles": [
+    "/Users/dayanvelasquez/.nuget/packages/system.io.hashing/8.0.0/system.io.hashing.8.0.0.nupkg.sha512",
+    "/Users/dayanvelasquez/.nuget/packages/yarp.reverseproxy/2.3.0/yarp.reverseproxy.2.3.0.nupkg.sha512"
+  ],
+  "logs": []
+}
