@@ -7,12 +7,31 @@ using System.Globalization;
 
 namespace StranglerProxy.Middleware
 {
+    /// <summary>
+    /// Middleware que intercepta respuestas JSON de ciertas rutas y las convierte a XML antes de enviarlas al cliente.
+    /// </summary>
+    /// <remarks>
+    /// Se usa típicamente en una aplicación proxy/strangler que consume servicios de backend que devuelven JSON,
+    /// pero donde los consumidores esperan XML. El middleware mira únicamente respuestas con Content-Type
+    /// "application/json" y código de estado 2xx en rutas que comienzan con <see cref="_pathPrefix"/>.
+    /// </remarks>
     public class JsonToXmlMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly string _pathPrefix;
         private readonly bool _addTransformHeader;
 
+        /// <summary>
+        /// Crea una nueva instancia del middleware.
+        /// </summary>
+        /// <param name="next">El siguiente delegado en el pipeline de ASP.NET Core.</param>
+        /// <param name="pathPrefix">
+        /// Prefijo de ruta que se debe comparar antes de intentar la transformación. Solo las rutas que
+        /// comienzan con este valor se procesarán para conversión de JSON a XML.
+        /// </param>
+        /// <param name="addTransformHeader">
+        /// Si es <c>true</c>, se añadirá la cabecera <c>Transformed-By: ACL-Proxy</c> a las respuestas convertidas.
+        /// </param>
         public JsonToXmlMiddleware(RequestDelegate next, string pathPrefix = "/api/orders", bool addTransformHeader = true)
         {
             _next = next;
@@ -20,6 +39,17 @@ namespace StranglerProxy.Middleware
             _addTransformHeader = addTransformHeader;
         }
 
+        /// <summary>
+        /// Ejecuta el middleware para cada petición HTTP.
+        /// </summary>
+        /// <param name="context">El contexto HTTP actual.</param>
+        /// <returns>Una tarea que representa la operación asincrónica.</returns>
+        /// <remarks>
+        /// Si la ruta de solicitud no coincide con <see cref="_pathPrefix"/>, el middleware delega
+        /// inmediatamente al siguiente componente. En caso contrario, captura el cuerpo de la respuesta,
+        /// intenta convertir JSON a XML y reemplaza el contenido antes de devolverlo al cliente.
+        /// Si ocurre cualquier excepción durante la conversión, se devuelve el contenido original.
+        /// </remarks>
         public async Task InvokeAsync(HttpContext context)
         {
             // Solo transformamos si la ruta coincide (ajusta según necesites)
