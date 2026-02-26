@@ -30,7 +30,7 @@ app.MapGet("/api/products", (IProductService productService) => new {
     Data = productService.GetProducts(),
 });
 
-// Endpoint que VAMOS a migrar
+
 app.MapGet("/api/orders", (IOrderService orderService) => new { 
     Source = "Legacy Monolith", 
     Data = orderService.GetOrders(),
